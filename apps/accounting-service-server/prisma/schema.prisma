@@ -1,0 +1,85 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model ProfitAndLoss {
+  cogs                 Float?
+  createdAt            DateTime @default(now())
+  grossProfit          Float?
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  incomeBeforeTax      Float?
+  incomeTax            Float?
+  netIncome            Float?
+  nonOperatingExpenses Float?
+  nonOperatingIncome   Float?
+  operatingExpenses    Float?
+  operatingIncome      Float?
+  revenue              Float?
+  updatedAt            DateTime @updatedAt
+}
+
+model Journals {
+  createdAt       DateTime  @default(now())
+  creditAmount    Float?
+  date            DateTime?
+  debitAmount     Float?
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  transactionType String?
+  updatedAt       DateTime  @updatedAt
+}
+
+model Reconciliation {
+  bankStatementBalance Float?
+  createdAt            DateTime @default(now())
+  difference           Float?
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  ledgerBalance        Float?
+  updatedAt            DateTime @updatedAt
+}
+
+model Ledger {
+  accountName     String?
+  createdAt       DateTime  @default(now())
+  credit          Float?
+  debit           Float?
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  transactionDate DateTime?
+  updatedAt       DateTime  @updatedAt
+}
+
+model Reports {
+  createdAt     DateTime @default(now())
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  reportContent Json?
+  reportType    String?
+  updatedAt     DateTime @updatedAt
+}
+
+model ArApInvoices {
+  createdAt    DateTime  @default(now())
+  description  String?
+  discounts    Float?
+  dueDate      DateTime?
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  paymentTerms String?
+  penalties    Float?
+  price        Float?
+  updatedAt    DateTime  @updatedAt
+}
+
+model User {
+  createdAt DateTime @default(now())
+  email     String?  @unique
+  firstName String?
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
